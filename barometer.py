@@ -19,11 +19,6 @@ if x == 0x55:
 else:
 	print("Barometro nao encontrado.")
 	exit(1)
-#Leitura das constantes
-#AC6(0xB4,0xB5)
-#AC5(0xB2,0xB3)
-#MC(0xBC,0xBD) 
-#MD(0xBE,0xBF)
 
 AC6_MSB = bus.read_byte_data(0x77,0xB4)
 AC6_LSB = bus.read_byte_data(0x77,0xB5)
@@ -41,8 +36,6 @@ MD_MSB = bus.read_byte_data(0x77,0xBE)
 MD_LSB = bus.read_byte_data(0x77,0xBF)
 MD = float(u2s((MD_MSB << 8) + MD_LSB))
 
-#print("Constantes:\nAC6 = %s\nAC5 = %s\nMC = %s\nMD = %s" %(AC6, AC5, MC, MD))
-
 #Acionando a leitura da temperatura
 bus.write_byte_data(0x77,0xF4,0x2E)
 
@@ -58,7 +51,5 @@ X1 = (UT - AC6) * (AC5 / (2**15))
 X2 = (MC * (2**11)) / (X1+MD)
 B5 = X1 + X2
 T = ((B5+8)/(2**4))/10
-
-#print("X1 = %s\nX2 = %s\nB5 = %s" % (X1, X2, B5))
 
 print("A temperatura eh %s (UT = %s)" %(T, UT))
